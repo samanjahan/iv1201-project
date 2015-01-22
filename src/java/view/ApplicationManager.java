@@ -5,7 +5,6 @@
  */
 package view;
 
-import controller.DatabaseHandler;
 import java.io.Serializable;
 import javax.faces.bean.ApplicationScoped;
 import javax.inject.Named;
@@ -20,6 +19,5 @@ import org.jboss.weld.context.ejb.Ejb;
 @ApplicationScoped
 
 public class ApplicationManager implements Serializable {
-    @Ejb
-    private DatabaseHandler dbh;
+    
 }
