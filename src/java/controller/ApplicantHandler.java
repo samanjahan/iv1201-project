@@ -11,7 +11,6 @@ import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 /**
  * A controller. All calls to the model related to user accounts that are executed because of an action taken by
@@ -31,16 +30,26 @@ public class ApplicantHandler {
             String email, 
             String username,
             String password){
-            Role role = getRole("applicant");
+            Role role = getRole((long)2);
             person = new Person(name,lastname,ssn,email,username,password,role);
             em.persist(person);
     }
     
-    public Role getRole(String role){
-        TypedQuery<Role> query= em.createNamedQuery("Role.findByName", Role.class);
-        query.setParameter("r", role);
-        Role result = query.getSingleResult();
+    public Role getRole(long id){
+        Role result = em.find(Role.class,id);       
         return result;
+    }
+
+    /**
+     * Not yet implemented
+     * 
+     * Checks if a username already exists 
+     * @param username
+     * @return returns true if input is not yet taken
+     */
+    public boolean usernameAvailable(String username) {
+    
+        return true;
     }
 
 }
