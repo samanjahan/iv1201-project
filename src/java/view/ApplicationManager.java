@@ -79,8 +79,14 @@ public class ApplicationManager implements Serializable {
             message = "A real Email Adress required.";
             return false;
         }
-        
-        
+        if(!applicantHandler.usernameAvailable(username)){
+            message = "Username already taken";
+            return false;            
+        }
+        if(username.equals("")){
+            message = "Username required";
+            return false;            
+        }
         return true;
     }
     
