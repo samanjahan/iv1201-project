@@ -76,6 +76,23 @@ public class Person implements Serializable {
     public Person() {
     }
 
+    public Person(
+            String name,
+            String surname,
+            String ssn, 
+            String email, 
+            String username,
+            String password,
+            Role role) {
+        this.name = name;
+        this.surname = surname;
+        this.ssn = ssn;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.roleId = role;
+    }
+
     public Person(Long personId) {
         this.personId = personId;
     }
