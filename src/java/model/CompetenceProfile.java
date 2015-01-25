@@ -40,12 +40,12 @@ public class CompetenceProfile implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "years_of_experience")
     private Double yearsOfExperience;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
-    @ManyToOne
-    private Person personId;
     @JoinColumn(name = "competence_id", referencedColumnName = "competence_id")
     @ManyToOne
     private Competence competenceId;
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
+    @ManyToOne
+    private Person personId;
 
     public CompetenceProfile() {
     }
@@ -70,20 +70,20 @@ public class CompetenceProfile implements Serializable {
         this.yearsOfExperience = yearsOfExperience;
     }
 
-    public Person getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(Person personId) {
-        this.personId = personId;
-    }
-
     public Competence getCompetenceId() {
         return competenceId;
     }
 
     public void setCompetenceId(Competence competenceId) {
         this.competenceId = competenceId;
+    }
+
+    public Person getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(Person personId) {
+        this.personId = personId;
     }
 
     @Override

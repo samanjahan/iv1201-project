@@ -33,11 +33,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
     @NamedQuery(name = "Person.findByPersonId", query = "SELECT p FROM Person p WHERE p.personId = :personId"),
-    @NamedQuery(name = "Person.findByName", query = "SELECT p FROM Person p WHERE p.name = :name"),
-    @NamedQuery(name = "Person.findBySurname", query = "SELECT p FROM Person p WHERE p.surname = :surname"),
-    @NamedQuery(name = "Person.findBySsn", query = "SELECT p FROM Person p WHERE p.ssn = :ssn"),
     @NamedQuery(name = "Person.findByEmail", query = "SELECT p FROM Person p WHERE p.email = :email"),
+    @NamedQuery(name = "Person.findByName", query = "SELECT p FROM Person p WHERE p.name = :name"),
     @NamedQuery(name = "Person.findByPassword", query = "SELECT p FROM Person p WHERE p.password = :password"),
+    @NamedQuery(name = "Person.findBySsn", query = "SELECT p FROM Person p WHERE p.ssn = :ssn"),
+    @NamedQuery(name = "Person.findBySurname", query = "SELECT p FROM Person p WHERE p.surname = :surname"),
     @NamedQuery(name = "Person.findByUsername", query = "SELECT p FROM Person p WHERE p.username = :username")})
 public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -46,25 +46,31 @@ public class Person implements Serializable {
     @Basic(optional = false)
     @Column(name = "person_id")
     private Long personId;
-    @Size(max = 255)
-    @Column(name = "name")
-    private String name;
-    @Size(max = 255)
-    @Column(name = "surname")
-    private String surname;
-    @Size(max = 13)
-    @Column(name = "ssn")
-    private String ssn;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 255)
     @Column(name = "email")
     private String email;
+    
+    @Size(max = 255)
+    @Column(name = "name")
+    private String name;
+    
     @Size(max = 255)
     @Column(name = "password")
     private String password;
+    
     @Size(max = 255)
-    @Column(name = "username")
+    @Column(name = "ssn")
+    private String ssn;
+    
+    @Size(max = 255)
+    @Column(name = "surname")
+    private String surname;
+    
+    @Size(max = 255)   
+    @Column(name = "username" , unique = true)
     private String username;
+    
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     @ManyToOne
     private Role roleId;
@@ -76,24 +82,6 @@ public class Person implements Serializable {
     public Person() {
     }
 
-    
-    public Person(
-            String name,
-            String surname,
-            String ssn, 
-            String email, 
-            String username,
-            String password,
-            Role role) {
-        this.name = name;
-        this.surname = surname;
-        this.ssn = ssn;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.roleId = role;
-    }
-    
     public Person(Long personId) {
         this.personId = personId;
     }
@@ -106,6 +94,14 @@ public class Person implements Serializable {
         this.personId = personId;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getName() {
         return name;
     }
@@ -114,12 +110,12 @@ public class Person implements Serializable {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getSsn() {
@@ -130,20 +126,12 @@ public class Person implements Serializable {
         this.ssn = ssn;
     }
 
-    public String getEmail() {
-        return email;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getUsername() {
@@ -194,10 +182,7 @@ public class Person implements Serializable {
             return false;
         }
         Person other = (Person) object;
-        if ((this.personId == null && other.personId != null) || (this.personId != null && !this.personId.equals(other.personId))) {
-            return false;
-        }
-        return true;
+        return !((this.personId == null && other.personId != null) || (this.personId != null && !this.personId.equals(other.personId)));
     }
 
     @Override
