@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package controller;
-
+import java.util.List;
+import java.util.ArrayList;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,12 +30,16 @@ public class PersonController {
      */
     
     public void register(String name, String surname, String ssn, String email, String password, String username) throws RejectException{
-      //  Person person = em.find(Person.class,username);
-      //  if(person != null){
-      //      throw  new RejectException("Username is already taken.");
-      //  }
+        Person person = em.find(Person.class,username);
+        if(person != null){
+            throw  new RejectException("Username is already taken.");
+        }
         
-       Person person = populatePersonObject(name, surname, ssn, email, password, username);
+        person = populatePersonObject(name, surname, ssn, email, password, username);
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(Role.USER);
+        
+        person.setRoles(roles);
         System.out.println("hahahahahahahahahahahahahahahahah " + person.getName());
         em.persist(person);
     } 
