@@ -47,9 +47,9 @@ public class Availability implements Serializable {
     @Column(name = "to_date")
     @Temporal(TemporalType.DATE)
     private Date toDate;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
+    @JoinColumn(name = "username", referencedColumnName = "username")
     @ManyToOne
-    private Person personId;
+    private Person username;
 
     public Availability() {
     }
@@ -82,12 +82,12 @@ public class Availability implements Serializable {
         this.toDate = toDate;
     }
 
-    public Person getPersonId() {
-        return personId;
+    public Person getUsername() {
+        return username;
     }
 
-    public void setPersonId(Person personId) {
-        this.personId = personId;
+    public void setUsername(Person username) {
+        this.username = username;
     }
 
     @Override

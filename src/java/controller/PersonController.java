@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package controller;
-import java.util.List;
-import java.util.ArrayList;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,6 +23,8 @@ public class PersonController {
     @PersistenceContext(unitName = "ProjectIv1201PU")
     private EntityManager em;
     
+    private final static long ADMIN_USER = 2l;
+    
     /**
      *Method register the user to the database
      */
@@ -36,11 +36,12 @@ public class PersonController {
         }
         
         person = populatePersonObject(name, surname, ssn, email, password, username);
-        List<Role> roles = new ArrayList<Role>();
-        roles.add(Role.USER);
         
-        person.setRoles(roles);
-        System.out.println("hahahahahahahahahahahahahahahahah " + person.getName());
+        Role role = em.find(Role.class, ADMIN_USER);
+      
+        person.setRoleId(role);
+        
+
         em.persist(person);
     } 
     
