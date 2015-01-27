@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "CompetenceProfile.findAll", query = "SELECT c FROM CompetenceProfile c"),
     @NamedQuery(name = "CompetenceProfile.findByCompetenceProfileId", query = "SELECT c FROM CompetenceProfile c WHERE c.competenceProfileId = :competenceProfileId"),
+    @NamedQuery(name = "CompetenceProfile.findByCompetenceId", query = "SELECT c FROM CompetenceProfile c WHERE c.competenceId = :competenceId"),
     @NamedQuery(name = "CompetenceProfile.findByYearsOfExperience", query = "SELECT c FROM CompetenceProfile c WHERE c.yearsOfExperience = :yearsOfExperience")})
 public class CompetenceProfile implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -37,15 +39,14 @@ public class CompetenceProfile implements Serializable {
     @Basic(optional = false)
     @Column(name = "competence_profile_id")
     private Long competenceProfileId;
+    @Column(name = "competence_id")
+    private BigInteger competenceId;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "years_of_experience")
     private Double yearsOfExperience;
-    @JoinColumn(name = "competence_id", referencedColumnName = "competence_id")
+    @JoinColumn(name = "username", referencedColumnName = "username")
     @ManyToOne
-    private Competence competenceId;
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
-    @ManyToOne
-    private Person personId;
+    private Person username;
 
     public CompetenceProfile() {
     }
@@ -62,6 +63,14 @@ public class CompetenceProfile implements Serializable {
         this.competenceProfileId = competenceProfileId;
     }
 
+    public BigInteger getCompetenceId() {
+        return competenceId;
+    }
+
+    public void setCompetenceId(BigInteger competenceId) {
+        this.competenceId = competenceId;
+    }
+
     public Double getYearsOfExperience() {
         return yearsOfExperience;
     }
@@ -70,20 +79,12 @@ public class CompetenceProfile implements Serializable {
         this.yearsOfExperience = yearsOfExperience;
     }
 
-    public Competence getCompetenceId() {
-        return competenceId;
+    public Person getUsername() {
+        return username;
     }
 
-    public void setCompetenceId(Competence competenceId) {
-        this.competenceId = competenceId;
-    }
-
-    public Person getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(Person personId) {
-        this.personId = personId;
+    public void setUsername(Person username) {
+        this.username = username;
     }
 
     @Override
